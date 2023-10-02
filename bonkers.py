@@ -16,13 +16,48 @@ os.system('cls')
 
 # Functions
 def welcomeScreen():
-    print(Back.MAGENTA + "Welcome to bonk v0.1.0")
+    print(Back.MAGENTA + "Welcome to Bonkers v0.1.0")
     print(Style.RESET_ALL)
+
+# Bonk key listener        
+def bonkKeyListener():
+    with open('list.bal', 'r') as f:
+        app = f.readlines()
+    
+    while True:
+        if keyboard.is_pressed("down"):
+            global listItem
+            listItem = listItem + 1
+            bonkLister()
+        
+        if keyboard.is_pressed("up"):
+            listItem = listItem - 1
+            bonkLister()
+            
+        if keyboard.is_pressed("enter"):
+            print(Fore.MAGENTA + 'Downloading...')
+            appName = os.path.basename(appURL)
+            r = requests.get(appURL, allow_redirects=True)
+            open(appName, 'wb').write(r.content)
+            bonkLister()
+        
+        if keyboard.is_pressed("esc"):
+            os.system("cls")
+            exit(0)
+            
+        time.sleep(0.1)        
  
 # Bonk downloader    
 def downloadBonkAppList():
     global bonkURL
     bonkURL = input("Provide a file repo: ")
+    
+    # If skipDownload is enabled
+    if bonkURL == 'debug.skipdownload':
+        print(Back.RED + 'Beware, this command can crash Bonkers!', Style.RESET_ALL)
+        time.sleep(1)
+        return
+    
     os.system('cls')
     print(Fore.YELLOW + 'Loading...')
     r = requests.get(bonkURL, allow_redirects=True)
@@ -62,33 +97,6 @@ def bonkLister():
     print(Style.RESET_ALL + "--------------------")
     cursor.hide()
             
-# Bonk key listener        
-def bonkKeyListener():
-    with open('list.bal', 'r') as f:
-        app = f.readlines()
-    
-    while True:
-        if keyboard.is_pressed("down"):
-            global listItem
-            listItem = listItem + 1
-            bonkLister()
-        
-        if keyboard.is_pressed("up"):
-            listItem = listItem - 1
-            bonkLister()
-            
-        if keyboard.is_pressed("enter"):
-            print(Fore.MAGENTA + 'Downloading...')
-            appName = os.path.basename(appURL)
-            r = requests.get(appURL, allow_redirects=True)
-            open(appName, 'wb').write(r.content)
-            bonkLister()
-        
-        if keyboard.is_pressed("esc"):
-            os.system("cls")
-            exit(0)
-            
-        time.sleep(0.1)        
             
 # Call Weclome Screen and run the Bonk downloader
 welcomeScreen()
