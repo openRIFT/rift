@@ -7,7 +7,6 @@ import os
 import keyboard
 import cursor
 import time
-import PyQt6
 
 # Variables
 listItem = 0
