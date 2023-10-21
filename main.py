@@ -42,9 +42,9 @@ def downloadBonkAppList():
         return
     
     os.system('cls')
-    print(Fore.YELLOW + 'Loading...')
+    print(Fore.YELLOW + 'Loading Repo...')
     r = requests.get(bonkURL, allow_redirects=True)
-    open('userFiles/list.bal', 'wb').write(r.content)
+    open('userFiles/repo.rift', 'wb').write(r.content)
     
 # Bonk list
 def fileLister():
@@ -57,7 +57,7 @@ def fileLister():
     int(terminalX)
     int(terminalY)
     
-    with open('list.bal', 'r') as f:
+    with open('repo.rift', 'r') as f:
         lines = len(f.readlines())
         lines = str(lines)
         
@@ -65,7 +65,7 @@ def fileLister():
     print(Style.RESET_ALL + "⎯" * (terminalX - 2))
     lines = int(lines)
     
-    with open('list.bal', 'r') as f:
+    with open('repo.rift', 'r') as f:
         app = f.readlines()
         
     for i in range(lines):
@@ -89,7 +89,7 @@ def fileLister():
     
 # Bonk key listener        
 def keyListener():
-    with open('list.bal', 'r') as f:
+    with open('repo.rift', 'r') as f:
         app = f.readlines()
     
     while True:
