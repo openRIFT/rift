@@ -32,14 +32,6 @@ def downloadBonkAppList():
         time.sleep(0.5)
         return
     
-    # If New GUI is enabled
-    if bonkURL == 'db.gui':
-        global bonkersGuiEnabled
-        bonkersGuiEnabled = True
-        print(Back.RED + 'Beware, this command may crash Bonkers!', Style.RESET_ALL)
-        time.sleep(0.5)
-        return
-    
     os.system('cls')
     print(Fore.YELLOW + 'Loading Repo...')
     r = requests.get(bonkURL, allow_redirects=True)
