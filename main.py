@@ -1,4 +1,4 @@
-# bonk.py
+# main.py
 
 # Packages
 from colorama import Fore, Back, Style
@@ -118,10 +118,10 @@ def fileDownloader():
     open(appName, 'wb').write(r.content)
     fileLister()
 
-# Call Weclome Screen and run the Bonk downloader
+# Call Weclome Screen and run the Repo downloader
 welcomeScreen()
 downloadBonkAppList()
 
-# Run Bonk Lister
+# Run Repo Lister and Key Listener
 fileLister()
 keyListener()
