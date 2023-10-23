@@ -35,12 +35,14 @@ def downloadBonkAppList():
     os.system('cls')
     print(Fore.YELLOW + 'Loading Repo...')
     r = requests.get(bonkURL, allow_redirects=True)
-    open('userFiles/repo.rift', 'wb').write(r.content)
+    open('repo.rift', 'wb').write(r.content)
     
 # Bonk list
 def fileLister():
     
     os.system('cls')
+    
+    repoFileExists()
     
     # Get terminal size
     terminalY = os.get_terminal_size().lines
@@ -100,8 +102,19 @@ def keyListener():
             os.system("cls")
             exit(0)
             
-        time.sleep(0.1)            
+        time.sleep(0.1)    
+        
+# Repo file checker
+def repoFileExists():
+     if os.path.isfile('repo.rift') == False:
+        uhohCrash('Repo file is missing (Could have been deleted)')
 
+# Crash
+def uhohCrash(error):
+    print(Fore.RED + 'Rift has crashed! Error: ' + error)
+    time.sleep(10)
+    exit(1)
+    
 # Downloads file
 def fileDownloader():
     print(Fore.MAGENTA + 'Downloading...')
