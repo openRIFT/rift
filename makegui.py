@@ -21,7 +21,7 @@ htmlF.write("""
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../css/styling.css">
+        <link rel="stylesheet" href="../theme/styling.css">
     </head>
     <body>
         <!--[if lt IE 7]>
