@@ -100,7 +100,7 @@ def keyListener():
             fileDownloader()
             
         if keyboard.is_pressed("shift"):
-            subprocess.run(['python', 'makegui.py'])
+            subprocess.run(['python', 'assets/python/makegui.py'])
             exit(0)
         
         if keyboard.is_pressed("esc"):
