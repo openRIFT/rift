@@ -7,6 +7,7 @@ import os
 import keyboard
 import cursor
 import time
+import subprocess
 
 # Variables
 listItem = 0
@@ -54,7 +55,7 @@ def fileLister():
         lines = len(f.readlines())
         lines = str(lines)
         
-    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "ESC to close", Back.YELLOW, Fore.BLACK + bonkURL, Style.RESET_ALL + '|')
+    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "ESC to close", Back.YELLOW, Fore.BLACK + 'Shift to open GUI', Style.RESET_ALL + '|')
     print(Style.RESET_ALL + "⎯" * (terminalX - 2))
     lines = int(lines)
     
@@ -97,6 +98,10 @@ def keyListener():
             
         if keyboard.is_pressed("enter"):
             fileDownloader()
+            
+        if keyboard.is_pressed("shift"):
+            subprocess.run(['python', 'makegui.py'])
+            exit(0)
         
         if keyboard.is_pressed("esc"):
             os.system("cls")
