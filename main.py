@@ -38,7 +38,7 @@ def downloadBonkAppList():
     r = requests.get(bonkURL, allow_redirects=True)
     open('repo.rift', 'wb').write(r.content)
     
-# Bonk list
+# File lister
 def fileLister():
     
     os.system('cls')
@@ -81,7 +81,7 @@ def fileLister():
     
     cursor.hide()
     
-# Bonk key listener        
+# Key listener        
 def keyListener():
     with open('repo.rift', 'r') as f:
         app = f.readlines()
