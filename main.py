@@ -109,7 +109,10 @@ def keyListener():
             fileDownloader()
             
         if keyboard.is_pressed("shift"):
-            subprocess.run(['python', 'assets/python/makegui.py'])
+            try:
+                subprocess.run(['python', 'assets/python/makegui.py'])
+            except:
+                uhohCrash('makegui.py is missing (Are you using microRIFT?)')
             exit(0)
         
         if keyboard.is_pressed("esc"):
