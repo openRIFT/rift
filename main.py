@@ -59,7 +59,7 @@ def fileLister():
         lines = len(f.readlines())
         lines = str(lines)
         
-    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "ESC to close", Back.YELLOW, Fore.BLACK + 'Shift to open GUI', Style.RESET_ALL + '|')
+    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "ESC to close", Back.YELLOW, Fore.BLACK + bonkURL, Style.RESET_ALL + '|')
     print(Style.RESET_ALL + "-" * (terminalX - 2))
     lines = int(lines)
     
@@ -107,13 +107,6 @@ def keyListener():
             
         if keyboard.is_pressed("enter"):
             fileDownloader()
-            
-        if keyboard.is_pressed("shift"):
-            try:
-                subprocess.run(['python', 'assets/python/makegui.py'])
-            except:
-                uhohCrash('makegui.py is missing (Are you using microRIFT?)')
-            exit(0)
         
         if keyboard.is_pressed("esc"):
             os.system("cls")
