@@ -12,7 +12,7 @@ import subprocess
 # Variables
 listItem = 0
 
-# Clear Screen
+# cls Screen
 os.system('cls')
 
 # Functions ↓
@@ -35,8 +35,12 @@ def downloadBonkAppList():
     
     os.system('cls')
     print(Fore.YELLOW + 'Loading Repo...')
-    r = requests.get(bonkURL, allow_redirects=True)
-    open('repo.rift', 'wb').write(r.content)
+    
+    try:
+        r = requests.get(bonkURL, allow_redirects=True)
+        open('repo.rift', 'wb').write(r.content)
+    except:
+        uhohCrash("Invalid URL")
     
 # File lister
 def fileLister():
@@ -72,6 +76,11 @@ def fileLister():
             appList = appList.split(';')
             appURL = appList[1]
             appURL = appURL.replace('\n', '')
+            
+            # Checks for content invalid data
+            if appItem == '':
+                uhohCrash('Invalid repo.rift contents (Try redownloading it?)')
+            
             print(Fore.GREEN + appItem, Back.WHITE, Fore.MAGENTA + "")
             
         else:
@@ -117,15 +126,20 @@ def repoFileExists():
 # Crash
 def uhohCrash(error):
     print(Fore.RED + 'Rift has crashed! Error: ' + error)
-    time.sleep(10)
+    time.sleep(5)
     exit(1)
     
 # Downloads file
 def fileDownloader():
     print(Fore.MAGENTA + 'Downloading...')
     appName = os.path.basename(appURL)
-    r = requests.get(appURL, allow_redirects=True)
-    open(appName, 'wb').write(r.content)
+    
+    # Checks for invalid url data
+    try:
+        r = requests.get(appURL, allow_redirects=True)
+        open(appName, 'wb').write(r.content)
+    except:
+        uhohCrash('Invalid download URL (Redownload repo file?)')
     fileLister()
 
 # Call Weclome Screen and run the Repo downloader
