@@ -60,7 +60,7 @@ def fileLister():
         lines = str(lines)
         
     print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "ESC to close", Back.YELLOW, Fore.BLACK + 'Shift to open GUI', Style.RESET_ALL + '|')
-    print(Style.RESET_ALL + "⎯" * (terminalX - 2))
+    print(Style.RESET_ALL + "-" * (terminalX - 2))
     lines = int(lines)
     
     with open('repo.rift', 'r') as f:
@@ -86,7 +86,7 @@ def fileLister():
         else:
             print(Style.RESET_ALL + appItem)
             
-    print(Style.RESET_ALL + "⎯" * (terminalX - 2))
+    print(Style.RESET_ALL + "-" * (terminalX - 2))
     
     cursor.hide()
     
