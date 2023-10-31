@@ -57,10 +57,11 @@ def fileLister():
     
     with open('repo.rift', 'r') as f:
         lines = len(f.readlines())
+        totalTextUsed = lines + 24
         lines = str(lines)
         
-    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "ESC to close", Back.YELLOW, Fore.BLACK + bonkURL, Style.RESET_ALL + '|')
-    print(Style.RESET_ALL + "-" * (terminalX - 2))
+    print(Back.MAGENTA, Fore.WHITE + lines + " files available " + "ESC to close" + ' ' * (terminalX - totalTextUsed))
+    print(Style.RESET_ALL + " " * (terminalX - 2))
     lines = int(lines)
     
     with open('repo.rift', 'r') as f:
@@ -85,8 +86,9 @@ def fileLister():
             
         else:
             print(Style.RESET_ALL + appItem)
-            
-    print(Style.RESET_ALL + "-" * (terminalX - 2))
+    
+    print(Style.RESET_ALL + " " * (terminalX - 2))        
+    print(Back.MAGENTA + " " * (terminalX - 2) + Style.RESET_ALL)
     
     cursor.hide()
     
