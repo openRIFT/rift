@@ -13,7 +13,7 @@ import subprocess
 listItem = 0
 
 # cls Screen
-os.system('cls')
+os.system('clear')
 
 # Functions ↓
 
@@ -33,7 +33,7 @@ def downloadBonkAppList():
         time.sleep(0.5)
         return
     
-    os.system('cls')
+    os.system('clear')
     print(Fore.YELLOW + 'Loading Repo...')
     
     try:
@@ -45,7 +45,7 @@ def downloadBonkAppList():
 # File lister
 def fileLister():
     
-    os.system('cls')
+    os.system('clear')
     
     repoFileExists()
     
