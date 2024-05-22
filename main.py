@@ -5,15 +5,20 @@ from colorama import Fore, Back, Style
 import requests
 import os
 import keyboard
-import cursor
+import platform
 import time
-import subprocess
 
 # Variables
 listItem = 0
 
+# Determine clear command
+if platform.system() == 'Windows':
+    clearCMD = 'cls'
+else:
+    clearCMD = 'clear'
+
 # cls Screen
-os.system('clear')
+os.system(clearCMD)
 
 # Functions ↓
 
@@ -21,23 +26,23 @@ os.system('clear')
 def welcomeScreen():
     print(Back.MAGENTA + "Welcome to RIFT v0.1.0")
     print(Style.RESET_ALL)
- 
+
 # Repo downloader    
-def downloadBonkAppList():
-    global bonkURL
-    bonkURL = input("Provide a file repo: ")
+def downloadRIFTAppList():
+    global RIFTURL
+    RIFTURL = input("Provide a file repo: ")
     
     # If skipDownload is enabled
-    if bonkURL == 'db.skip':
-        print(Back.RED + 'Beware, this command can crash Bonkers!', Style.RESET_ALL)
+    if RIFTURL == 'db.skip':
+        print(Back.RED + 'Beware, this command can crash RIFT!', Style.RESET_ALL)
         time.sleep(0.5)
         return
     
-    os.system('clear')
+    os.system(clearCMD)
     print(Fore.YELLOW + 'Loading Repo...')
     
     try:
-        r = requests.get(bonkURL, allow_redirects=True)
+        r = requests.get(RIFTURL, allow_redirects=True)
         open('repo.rift', 'wb').write(r.content)
     except:
         uhohCrash("Invalid URL")
@@ -45,7 +50,7 @@ def downloadBonkAppList():
 # File lister
 def fileLister():
     
-    os.system('clear')
+    os.system(clearCMD)
     
     repoFileExists()
     
@@ -90,7 +95,6 @@ def fileLister():
     print(Style.RESET_ALL + " " * (terminalX - 2))        
     print(Back.MAGENTA + " " * (terminalX - 2) + Style.RESET_ALL)
     
-    cursor.hide()
     
 # Key listener        
 def keyListener():
@@ -111,7 +115,7 @@ def keyListener():
             fileDownloader()
         
         if keyboard.is_pressed("esc"):
-            os.system("cls")
+            os.system(clearCMD)
             exit(0)
             
         time.sleep(0.1)    
@@ -142,7 +146,7 @@ def fileDownloader():
 
 # Call Weclome Screen and run the Repo downloader
 welcomeScreen()
-downloadBonkAppList()
+downloadRIFTAppList()
 
 # Run Repo Lister and Key Listener
 fileLister()
