@@ -1,4 +1,8 @@
-# main.py
+#############################################################
+#                                                           #
+# File created by 0hStormy                                  #
+#                                                           #
+#############################################################
 
 # Packages
 from colorama import Fore, Back, Style
@@ -7,6 +11,8 @@ import os
 import platform
 import time
 import subprocess
+import json
+
 
 # Variables
 listItem = 0
@@ -22,6 +28,17 @@ else:
 os.system(clearCMD)
 
 # Functions ↓
+
+# Load config
+def loadConfig():
+    f = open("assets/config.json", "r")
+    tmp_j = f.read()
+    cfginfo = json.loads(tmp_j)
+
+    global DefaultTE
+    global DefaultShell
+    DefaultTE = (cfginfo['DefaultTextEditor'])
+    DefaultShell = (cfginfo['DefaultShell'])
 
 # Welcome Screen
 def welcomeScreen():
@@ -44,7 +61,7 @@ def downloadRIFTfileList():
     
     try:
         r = requests.get(('https://' + RIFTURL), allow_redirects=True)
-        open('repo.rift', 'wb').write(r.content)
+        open('assets/repo.rift', 'wb').write(r.content)
     except:
         uhohCrash("Invalid URL")
     
@@ -61,15 +78,15 @@ def refresh():
     int(terminalX)
     int(terminalY)
     
-    with open('repo.rift', 'r') as f:
+    with open('assets/repo.rift', 'r') as f:
         lines = len(f.readlines())
         lines = str(lines)
         
-    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "ESC to close", Style.RESET_ALL + '|')
+    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "Type exit to close", Style.RESET_ALL + '|')
     print(Style.RESET_ALL + "-" * (terminalX - 2))
     lines = int(lines)
     
-    with open('repo.rift', 'r') as f:
+    with open('assets/repo.rift', 'r') as f:
         file = f.readlines()
         
     for i in range(lines):
@@ -114,12 +131,16 @@ def keyListener():
             exit(0)
         elif command == 'rf':
             refresh()
+        elif command == 'conf':
+            subprocess.run([DefaultTE, 'assets/config.json'])
+            loadConfig()
+            refresh()
         else:
             sh = command.split()
             if len(sh) == 1:
-                subprocess.run('bash')
+                subprocess.run(DefaultShell)
                 refresh()
-            elif sh[0] == 'sh':
+            elif sh[0] == 's':
                 sh.pop(0)
                 subprocess.run(sh)
                 refresh()
@@ -132,7 +153,7 @@ def keyListener():
         
 # Repo file checker
 def repoFileExists():
-     if os.path.isfile('repo.rift') == False:
+     if os.path.isfile('assets/repo.rift') == False:
         uhohCrash('Repo file is missing (Could have been deleted)')
 
 # Crash
@@ -154,6 +175,7 @@ def fileDownloader():
     refresh()
 
 # Call Weclome Screen and run the Repo downloader
+loadConfig()
 welcomeScreen()
 downloadRIFTfileList()
 
