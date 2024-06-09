@@ -29,16 +29,38 @@ os.system(clearCMD)
 
 # Functions ↓
 
+# Make config
+def makeConfig():
+    configcontents = {
+        "DefaultTextEditor": "vim",
+        "DefaultShell": "bash",
+
+        "DownloadsFolder": "@HOME/Documents/",
+        "ProgramFiles": "rift/"
+    }
+
+    cfgdump = json.dumps(configcontents, indent=4)
+    f = open("rift/config.json", "w+")
+    f.write(cfgdump)
+    f.close()
+
 # Load config
 def loadConfig():
-    f = open("assets/config.json", "r")
+    f = open("rift/config.json", "r")
     tmp_j = f.read()
     cfginfo = json.loads(tmp_j)
 
     global DefaultTE
     global DefaultShell
+    global DownloadsFolder
+    global ProgramFiles
     DefaultTE = (cfginfo['DefaultTextEditor'])
     DefaultShell = (cfginfo['DefaultShell'])
+    DownloadsFolder = (cfginfo['DownloadsFolder'])
+    ProgramFiles = (cfginfo['ProgramFiles'])
+
+    if '@HOME' in DownloadsFolder:
+        DownloadsFolder = DownloadsFolder.replace('@HOME', os.path.expanduser('~'))
 
 # Welcome Screen
 def welcomeScreen():
@@ -61,7 +83,7 @@ def downloadRIFTfileList():
     
     try:
         r = requests.get(('https://' + RIFTURL), allow_redirects=True)
-        open('assets/repo.rift', 'wb').write(r.content)
+        open(f'{ProgramFiles}/repo.rift', 'wb').write(r.content)
     except:
         uhohCrash("Invalid URL")
     
@@ -78,15 +100,15 @@ def refresh():
     int(terminalX)
     int(terminalY)
     
-    with open('assets/repo.rift', 'r') as f:
+    with open(f'{ProgramFiles}/repo.rift', 'r') as f:
         lines = len(f.readlines())
         lines = str(lines)
         
-    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "Type exit to close", Style.RESET_ALL + '|')
+    print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "Type exit to close", Back.WHITE, Style.DIM)
     print(Style.RESET_ALL + "-" * (terminalX - 2))
     lines = int(lines)
     
-    with open('assets/repo.rift', 'r') as f:
+    with open(f'{ProgramFiles}/repo.rift', 'r') as f:
         file = f.readlines()
         
     for i in range(lines):
@@ -105,7 +127,7 @@ def refresh():
                 uhohCrash('Invalid repo.rift contents (Try redownloading it?)')
             
             
-            print(str(i + 1) + ': ' + Fore.GREEN + fileItem, Back.WHITE, Fore.MAGENTA + "")
+            print(f'{str(i + 1)}:{Fore.GREEN} {fileItem} {nerdFontGrabber(os.path.basename(fileURL))}{Back.WHITE}')
 
         else:
             print(Style.RESET_ALL + str(i + 1) + ': ' + fileItem)
@@ -122,38 +144,48 @@ def keyListener():
             indexInput = input('Index: ')
             listItem = (int(indexInput) - 1)
             refresh()
-
+        # Download
         elif command == 'dl':
              fileDownloader()
-
+        # Exit
         elif command == 'exit':
             os.system(clearCMD)
             exit(0)
+        # Refresh
         elif command == 'rf':
             refresh()
+        # Config
         elif command == 'conf':
-            subprocess.run([DefaultTE, 'assets/config.json'])
+            subprocess.run([DefaultTE, f'{ProgramFiles}/config.json'])
             loadConfig()
             refresh()
+        # Repo Editor Tool
+        elif command == 'edit':
+            subprocess.run(['python', 'repotool.py'])
+            refresh()
         else:
-            sh = command.split()
-            if len(sh) == 1:
-                subprocess.run(DefaultShell)
-                refresh()
-            elif sh[0] == 's':
-                sh.pop(0)
-                subprocess.run(sh)
-                refresh()
-            else:
-                os.system(clearCMD)
-                refresh()
-                print(f'{Back.RED}Invalid Command{Style.RESET_ALL}')
+            # Shell
+            try:
+                sh = command.split()
+                if len(sh) == 1:
+                    if sh[0] == 's':
+                        subprocess.run(DefaultShell)
+                        refresh()
+                    else:
+                        print(f'{Fore.YELLOW}Invalid Command{Style.RESET_ALL}')
+
+                elif sh[0] == 's':
+                    sh.pop(0)
+                    subprocess.run(sh)
+                    refresh()
+            except IndexError:
+                print(f'{Fore.YELLOW}Invalid Command{Style.RESET_ALL}')
             
         time.sleep(0.1)    
         
 # Repo file checker
 def repoFileExists():
-     if os.path.isfile('assets/repo.rift') == False:
+     if os.path.isfile(f'{ProgramFiles}/repo.rift') is False:
         uhohCrash('Repo file is missing (Could have been deleted)')
 
 # Crash
@@ -169,10 +201,27 @@ def fileDownloader():
     # Checks for invalid url data
     try:
         r = requests.get(fileURL)
-        open(fileName, 'wb').write(r.content)
+        open(f'{DownloadsFolder}{fileName}', 'wb').write(r.content)
     except:
         uhohCrash(f'Invalid Download URL {Fore.YELLOW}{fileURL}')
     refresh()
+
+# Grab Nerd Font Icon
+def nerdFontGrabber(fileEx):
+    f = open("rift/fileicons.json", "r")
+    nerd_json = f.read()
+    iconList = json.loads(nerd_json)
+
+    try:
+        returnIcon = (iconList[fileEx[fileEx.find('.'):]])
+    except KeyError:
+        returnIcon = (iconList['fallback'])
+    return returnIcon
+
+
+# Checks if config file exists
+if os.path.isfile('rift/config.json') is False:
+    makeConfig()
 
 # Call Weclome Screen and run the Repo downloader
 loadConfig()
