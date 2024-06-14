@@ -1,6 +1,6 @@
 {
     "DefaultTextEditor": "vim",
     "DefaultShell": "bash",
-    "DownloadsFolder": "@HOME/Downloads/",
+    "DownloadsFolder": "",
     "ProgramFiles": "rift/"
 }

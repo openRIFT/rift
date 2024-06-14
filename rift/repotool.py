@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 #############################################################
 #                                                           #
 # File created by 0hStormy                                  #
@@ -6,7 +8,6 @@
 
 # Packages
 from colorama import Fore, Back, Style
-import requests
 import os
 import platform
 import time
@@ -102,7 +103,7 @@ def refresh():
                 uhohCrash('Invalid repo.rift contents (Try redownloading it?)')
             
             
-            print(f'{str(i + 1)}:{Fore.GREEN} {fileItem} {nerdFontGrabber(os.path.basename(fileURL))}{Back.WHITE}')
+            print(f'{str(i + 1)}:{Fore.GREEN} {fileItem} [{nerdFontGrabber(os.path.basename(fileURL))}]{Back.WHITE}')
 
         else:
             print(Style.RESET_ALL + str(i + 1) + ': ' + fileItem)
@@ -155,13 +156,13 @@ def keyListener():
             try:
                 sh = command.split()
                 if len(sh) == 1:
-                    if sh[0] == 's':
+                    if sh[0] == 'sh':
                         subprocess.run(DefaultShell)
                         refresh()
                     else:
                         print(f'{Fore.YELLOW}Invalid Command{Style.RESET_ALL}')
 
-                elif sh[0] == 's':
+                elif sh[0] == 'sh':
                     sh.pop(0)
                     subprocess.run(sh)
                     refresh()

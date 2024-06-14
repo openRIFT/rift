@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 #############################################################
 #                                                           #
 # File created by 0hStormy                                  #
@@ -84,7 +86,7 @@ def downloadRIFTfileList():
     try:
         r = requests.get(('https://' + RIFTURL), allow_redirects=True)
         open(f'{ProgramFiles}/repo.rift', 'wb').write(r.content)
-    except:
+    except:  # noqa: E722
         uhohCrash("Invalid URL")
     
 # File lister
@@ -127,7 +129,7 @@ def refresh():
                 uhohCrash('Invalid repo.rift contents (Try redownloading it?)')
             
             
-            print(f'{str(i + 1)}:{Fore.GREEN} {fileItem} {nerdFontGrabber(os.path.basename(fileURL))}{Back.WHITE}')
+            print(f'{str(i + 1)}:{Fore.GREEN} {fileItem} [{nerdFontGrabber(os.path.basename(fileURL))}]{Back.WHITE}')
 
         else:
             print(Style.RESET_ALL + str(i + 1) + ': ' + fileItem)
@@ -161,20 +163,20 @@ def keyListener():
             refresh()
         # Repo Editor Tool
         elif command == 'edit':
-            subprocess.run(['python', 'repotool.py'])
+            subprocess.run(['python', f'{ProgramFiles}/repotool.py'])
             refresh()
         else:
             # Shell
             try:
                 sh = command.split()
                 if len(sh) == 1:
-                    if sh[0] == 's':
+                    if sh[0] == 'sh':
                         subprocess.run(DefaultShell)
                         refresh()
                     else:
                         print(f'{Fore.YELLOW}Invalid Command{Style.RESET_ALL}')
 
-                elif sh[0] == 's':
+                elif sh[0] == 'sh':
                     sh.pop(0)
                     subprocess.run(sh)
                     refresh()
@@ -191,8 +193,8 @@ def repoFileExists():
 # Crash
 def uhohCrash(error):
     print(Fore.RED + 'Rift has errored! Error: ' + error)
-    time.sleep(3)
-    
+    time.sleep(2)
+
 # Downloads file
 def fileDownloader():
     print(Fore.MAGENTA + 'Downloading...')
@@ -203,7 +205,7 @@ def fileDownloader():
         r = requests.get(fileURL)
         open(f'{DownloadsFolder}{fileName}', 'wb').write(r.content)
     except:
-        uhohCrash(f'Invalid Download URL {Fore.YELLOW}{fileURL}')
+        uhohCrash(f'Invalid Download URL {Fore.YELLOW}{fileURL}') 
     refresh()
 
 # Grab Nerd Font Icon
