@@ -1,6 +1,6 @@
 # Packages
 pip3 install colorama
-pip install rich
+pip3 install rich
 
 # Run
 python3 rift.py

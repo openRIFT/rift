@@ -35,6 +35,10 @@ def makeConfig():
     configcontents = {
         "DefaultTextEditor": "vim",
         "DefaultShell": "bash",
+        
+        "NerdFontIcons": False,
+
+        "AudioPlayer": "vlc",
 
         "DownloadsFolder": "@HOME/Documents/",
         "ProgramFiles": "rift/"
@@ -55,10 +59,12 @@ def loadConfig():
     global DefaultShell
     global DownloadsFolder
     global ProgramFiles
+    global NerdFontIcons
     DefaultTE = (cfginfo['DefaultTextEditor'])
     DefaultShell = (cfginfo['DefaultShell'])
     DownloadsFolder = (cfginfo['DownloadsFolder'])
     ProgramFiles = (cfginfo['ProgramFiles'])
+    NerdFontIcons = (cfginfo['NerdFontIcons'])
 
     if '@HOME' in DownloadsFolder:
         DownloadsFolder = DownloadsFolder.replace('@HOME', os.path.expanduser('~'))
@@ -87,20 +93,29 @@ def refresh():
     with open(f'{ProgramFiles}/repo.rift', 'r') as f:
         file = f.readlines()
         
+    # Checks if Repository is Empty
+    if len(file) == 0:
+        print(f'{Fore.YELLOW}Empty Repository')
+        print('''Type "append" to start adding entries''')
+
     for i in range(lines):
         fileList = file[i]
         fileItem = fileList.split(';')
         fileItem = fileItem[0].replace('\n', '')
         
         if i == listItem:
-            global fileURL
-            fileList = fileList.split(';')
-            fileURL = fileList[1]
-            fileURL = fileURL.replace('\n', '')
-            
+            try:
+                global fileURL
+                fileList = fileList.split(';')
+                fileURL = fileList[1]
+                fileURL = fileURL.replace('\n', '')
+            except IndexError:
+                fileURL = ''
+                fileItem = ''
+
             # Checks for content invalid data
             if fileItem == '':
-                uhohCrash('Invalid repo.rift contents (Try redownloading it?)')
+                print(f'{Fore.GREEN}{str(i + 1)}: ---')
             
             
             print(f'{str(i + 1)}:{Fore.GREEN} {fileItem} [{nerdFontGrabber(os.path.basename(fileURL))}]{Back.WHITE}')
@@ -183,6 +198,9 @@ def uhohCrash(error):
 
 # Grab Nerd Font Icon
 def nerdFontGrabber(fileEx):
+    if not NerdFontIcons:
+        return ''
+
     f = open("rift/fileicons.json", "r")
     nerd_json = f.read()
     iconList = json.loads(nerd_json)
