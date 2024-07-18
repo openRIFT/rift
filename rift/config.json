@@ -1,11 +1,9 @@
 {
     "DefaultTextEditor": "vim",
     "DefaultShell": "bash",
-
     "NerdFontIcons": false,
-
     "AudioPlayer": "vlc",
-
-    "DownloadsFolder": "@HOME/Downloads/",
+    "ExecDownloadWarn": true,
+    "DownloadsFolder": "@HOME/Documents/",
     "ProgramFiles": "rift/"
 }

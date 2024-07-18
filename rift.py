@@ -19,6 +19,7 @@ import json
 # Variables
 listItem = 0
 RIFTVersion = '1.0-dev'
+execFiles = ['.exe', 'msi', '.dmg', '.sh', '.deb', '.rpm', '.AppImage', '.flatpak', '.flatpakref', '.pkg']
 
 # Determine clear command
 if platform.system() == 'Windows':
@@ -36,10 +37,11 @@ def makeConfig():
     configcontents = {
         "DefaultTextEditor": "vim",
         "DefaultShell": "bash",
-        
-        "NerdFontIcons": False,
 
+        "NerdFontIcons": False,
         "AudioPlayer": "vlc",
+
+        "ExecDownloadWarn": True,
 
         "DownloadsFolder": "@HOME/Documents/",
         "ProgramFiles": "rift/"
@@ -62,12 +64,14 @@ def loadConfig():
     global ProgramFiles
     global NerdFontIcons
     global AudioPlayer
+    global ExecWarn
     DefaultTE = (cfginfo['DefaultTextEditor'])
     DefaultShell = (cfginfo['DefaultShell'])
     DownloadsFolder = (cfginfo['DownloadsFolder'])
     ProgramFiles = (cfginfo['ProgramFiles'])
     NerdFontIcons = (cfginfo['NerdFontIcons'])
     AudioPlayer = (cfginfo['AudioPlayer'])
+    ExecWarn = (cfginfo['ExecDownloadWarn'])
 
     if '@HOME' in DownloadsFolder:
         DownloadsFolder = DownloadsFolder.replace('@HOME', os.path.expanduser('~'))
@@ -76,49 +80,48 @@ def loadConfig():
 def welcomeScreen():
     print(f'{Back.MAGENTA}Welcome to RIFT {RIFTVersion}')
     print(Style.RESET_ALL)
-    print(NerdFontIcons)
 
-# Repo downloader    
+# Repo downloader
 def downloadRIFTfileList():
     global RIFTURL
     RIFTURL = input("Provide a file repo: ")
-    
+
     # If skipDownload is enabled
     if RIFTURL == 'local':
         print(Back.RED + 'Beware, this can crash RIFT!', Style.RESET_ALL)
         time.sleep(0.5)
         return
-    
+
     os.system(clearCMD)
     print(Fore.YELLOW + 'Loading Repo...')
-    
+
     try:
         r = requests.get(('https://' + RIFTURL), allow_redirects=True)
         open(f'{ProgramFiles}/repo.rift', 'wb').write(r.content)
     except:  # noqa: E722
         uhohCrash("Invalid URL")
-    
+
 # File lister
 def refresh():
-    
+
     os.system(clearCMD)
-    
+
     repoFileExists()
-    
+
     # Get terminal size
     terminalY = os.get_terminal_size().lines
     terminalX = os.get_terminal_size().columns
     int(terminalX)
     int(terminalY)
-    
+
     with open(f'{ProgramFiles}/repo.rift', 'r') as f:
         lines = len(f.readlines())
         lines = str(lines)
-        
+
     print(Back.LIGHTGREEN_EX, Fore.BLACK + lines + " files available", Back.RED, Fore.WHITE + "Type exit to close", Back.WHITE, Style.DIM)
     print(Style.RESET_ALL + "-" * (terminalX - 2))
     lines = int(lines)
-    
+
     with open(f'{ProgramFiles}/repo.rift', 'r') as f:
         file = f.readlines()
 
@@ -126,12 +129,12 @@ def refresh():
     if len(file) == 0:
         print(f'{Fore.YELLOW}Empty Repository')
         print('''Type "edit" to edit the repository file''')
-        
+
     for i in range(lines):
         fileList = file[i]
         fileItem = fileList.split(';')
         fileItem = fileItem[0].replace('\n', '')
-        
+
         if i == listItem:
             try:
                 global fileURL
@@ -141,7 +144,7 @@ def refresh():
             except IndexError:
                 fileURL = ''
                 fileItem = ''
-            
+
             # Checks for content invalid data
             if fileItem == '':
                 print(f'{Fore.GREEN}{str(i + 1)}: ---')
@@ -150,11 +153,11 @@ def refresh():
 
         else:
             print(Style.RESET_ALL + str(i + 1) + ': ' + fileItem)
-        
+
     print(Style.RESET_ALL + "-" * (terminalX - 2))
-    
-    
-# Key listener        
+
+
+# Key listener
 def keyListener():
     while True:
         command = input('Command: ')
@@ -188,7 +191,8 @@ def keyListener():
                 subprocess.run([AudioPlayer, f'{DownloadsFolder}/{fileName}'])
             else:
                 subprocess.run([AudioPlayer, audioInput])
-
+        elif command == 'about':
+            subprocess.run(['python', f'{ProgramFiles}/mdparse.py'])
         else:
             # Shell
             try:
@@ -206,9 +210,9 @@ def keyListener():
                     refresh()
             except IndexError:
                 print(f'{Fore.YELLOW}Invalid Command{Style.RESET_ALL}')
-            
-        time.sleep(0.1)    
-        
+
+        time.sleep(0.1)
+
 # Repo file checker
 def repoFileExists():
      if os.path.isfile(f'{ProgramFiles}/repo.rift') is False:
@@ -221,16 +225,25 @@ def uhohCrash(error):
 
 # Downloads file
 def fileDownloader():
-    print(Fore.MAGENTA + 'Downloading...')
     global fileName
     fileName = os.path.basename(fileURL)
-    
+
+    if ExecWarn is True:
+        if any(ext in fileName for ext in execFiles):
+            warnInput = input(f'{Fore.RED}This file could be harmful to your computer, download? RIFT IS NOT LIABLE FOR DAMAGE DONE TO YOUR COMPUTER! (y/n): {Style.RESET_ALL}')
+            if warnInput == 'y':
+                print('Compute safely!')
+            else:
+                print(f'{Fore.YELLOW}Operation Canceled{Style.RESET_ALL}')
+                return
+    print(Fore.MAGENTA + 'Downloading...')
+
     # Checks for invalid url data
     try:
         r = requests.get(fileURL)
         open(f'{DownloadsFolder}{fileName}', 'wb').write(r.content)
     except:
-        uhohCrash(f'Invalid Download URL {Fore.YELLOW}{fileURL}') 
+        uhohCrash(f'Invalid Download URL {Fore.YELLOW}{fileURL}')
     refresh()
 
 # Grab Nerd Font Icon
