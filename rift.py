@@ -43,7 +43,7 @@ def makeConfig():
 
         "ExecDownloadWarn": True,
 
-        "DownloadsFolder": "@HOME/Documents/",
+        "DownloadsFolder": "@HOME/Downloads/",
         "ProgramFiles": "rift/"
     }
 
