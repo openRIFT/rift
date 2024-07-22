@@ -18,7 +18,7 @@ import json
 
 # Variables
 listItem = 0
-RIFTVersion = '1.0-dev'
+RIFTVersion = '2.0'
 execFiles = ['.exe', 'msi', '.dmg', '.sh', '.deb', '.rpm', '.AppImage', '.flatpak', '.flatpakref', '.pkg']
 
 # Determine clear command
@@ -84,10 +84,10 @@ def welcomeScreen():
 # Repo downloader
 def downloadRIFTfileList():
     global RIFTURL
-    RIFTURL = input("Provide a file repo: ")
+    RIFTURL = f'{input("Provide a file repo: ")}/repo.rift'
 
     # If skipDownload is enabled
-    if RIFTURL == 'local':
+    if RIFTURL == 'local/repo.rift':
         print(Back.RED + 'Beware, this can crash RIFT!', Style.RESET_ALL)
         time.sleep(0.5)
         return
@@ -191,8 +191,13 @@ def keyListener():
                 subprocess.run([AudioPlayer, f'{DownloadsFolder}/{fileName}'])
             else:
                 subprocess.run([AudioPlayer, audioInput])
+        # Markdown stuffs        
         elif command == 'about':
-            subprocess.run(['python', f'{ProgramFiles}/mdparse.py'])
+            subprocess.run(['python', f'{ProgramFiles}/basic_mdparse.py'])
+
+        elif command == 'help':
+            subprocess.run(['python', f'{ProgramFiles}doc.reader.py'])
+
         else:
             # Shell
             try:

@@ -33,6 +33,9 @@ def parseMD():
             elif line.startswith('*'): # Remove italics as they're not supported by Windows
                 mdOut = line.replace('*', '')
 
+            elif line.startswith('* '):
+                mdOut =line.replace('* ', '  * ')
+
             else:
                  mdOut = f'{Style.RESET_ALL}{line}'
 
