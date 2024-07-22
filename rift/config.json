@@ -4,6 +4,6 @@
     "NerdFontIcons": false,
     "AudioPlayer": "vlc",
     "ExecDownloadWarn": true,
-    "DownloadsFolder": "@HOME/Documents/",
+    "DownloadsFolder": "@HOME/Downloads/",
     "ProgramFiles": "rift/"
 }
