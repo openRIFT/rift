@@ -18,7 +18,7 @@ import json
 
 # Variables
 listItem = 0
-RIFTVersion = '2.0'
+RIFTVersion = '24.7.1'
 execFiles = ['.exe', 'msi', '.dmg', '.sh', '.deb', '.rpm', '.AppImage', '.flatpak', '.flatpakref', '.pkg']
 
 # Determine clear command

@@ -17,7 +17,7 @@ Before you start, you will need a couple things installed:
 
 * Python 3+ (No Python 2 support)
 * Colorama (Installed automatically with `run.sh`)
-* Windows or Linux (No offical MacOS support currently)
+* Windows, MacOS, or Linux
 
 Once you have all of those, you can start using RIFT!
 
@@ -29,6 +29,8 @@ You'll see something like this
 
 `Welcome to RIFT [VERSION]`
 `Please provide file repo:`
+
+![RIFT URL Screen](rift/docs/welcomescreen.png)
 
 If you need an example, try `0hstormy.github.io` and press enter.
 
@@ -46,6 +48,10 @@ Now that you're in the main part of the program, here are the follow commands th
 * about: Shows README.md file
 * help: Shows this documentation
 
+Main UI looks something like below:
+
+![RIFT UI](rift/docs/mainui.png)
+
 # Repositories
 
 So, you want to create a repository now huh? Well you're in luck because creating file repositories in RIFT is pretty simple, there are 2 ways to do it currently. You can use the in-built editor, or edit a `repo.rift` file manually.
@@ -53,6 +59,8 @@ So, you want to create a repository now huh? Well you're in luck because creatin
 ## Built-in edtior
 
 Using the built-in editor is very simple, open up rift, you can either clear out your current `repo.rift` file or you can simply just work off the on you last opened by typing `local` into the URL input. From there you can just type `edit` and it will open up the editor mode. Use `append` to create a new entry, or use `del` to remove an entry at a specific index. All download URL's must be direct file downloads.
+
+![RIFT UI](rift/docs/editorui.png)
 
 ### Editor specifc commands
 

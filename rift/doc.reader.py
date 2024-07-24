@@ -46,7 +46,7 @@ def parseMD():
             elif line.startswith('* '):
                 mdOut = line.replace('* ', ' *')
             
-            elif line.startswith('<img>'): # Any images
+            elif line.startswith('!['): # Any images
                 mdOut = line.replace(line, '[image]')
 
             else:
