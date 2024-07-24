@@ -160,6 +160,8 @@ def refresh():
 # Key listener
 def keyListener():
     while True:
+        global commandSuccess
+        commandSuccess = False
         command = input('Command: ')
         if command == 'i':
             global listItem
@@ -191,12 +193,13 @@ def keyListener():
                 subprocess.run([AudioPlayer, f'{DownloadsFolder}/{fileName}'])
             else:
                 subprocess.run([AudioPlayer, audioInput])
-        # Markdown stuffs        
-        elif command == 'about':
-            subprocess.run(['python', f'{ProgramFiles}/basic_mdparse.py'])
 
-        elif command == 'help':
-            subprocess.run(['python', f'{ProgramFiles}doc.reader.py'])
+        # External plugins
+        pluginsList = os.listdir(f'{ProgramFiles}plugins/')
+        for plugin in pluginsList:
+            if plugin == f'{command}.py':
+                subprocess.run(['python', f'{ProgramFiles}/plugins/{plugin}'])
+                commandSuccess = True
 
         else:
             # Shell
@@ -207,7 +210,8 @@ def keyListener():
                         subprocess.run(DefaultShell)
                         refresh()
                     else:
-                        print(f'{Fore.YELLOW}Invalid Command{Style.RESET_ALL}')
+                        if commandSuccess is False:
+                            print(f'{Fore.YELLOW}Invalid Command{Style.RESET_ALL}')
 
                 elif sh[0] == 'sh':
                     sh.pop(0)
