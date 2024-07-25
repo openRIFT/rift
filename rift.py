@@ -104,6 +104,9 @@ def downloadRIFTfileList():
 # File lister
 def refresh():
 
+    global commandSuccess
+    commandSuccess = True
+
     os.system(clearCMD)
 
     repoFileExists()
