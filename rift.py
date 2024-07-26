@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 #############################################################
 #                                                           #
@@ -20,6 +20,7 @@ import json
 listItem = 0
 RIFTVersion = '24.7.1'
 execFiles = ['.exe', 'msi', '.dmg', '.sh', '.deb', '.rpm', '.AppImage', '.flatpak', '.flatpakref', '.pkg']
+homeFolder = os.path.expanduser('~')
 
 # Determine clear command
 if platform.system() == 'Windows':
@@ -44,17 +45,17 @@ def makeConfig():
         "ExecDownloadWarn": True,
 
         "DownloadsFolder": "@HOME/Downloads/",
-        "ProgramFiles": "rift/"
+        "ProgramFiles": f"{homeFolder}/.rift/"
     }
 
     cfgdump = json.dumps(configcontents, indent=4)
-    f = open("rift/config.json", "w+")
+    f = open(f"{homeFolder}/.rift/config.json", "w+")
     f.write(cfgdump)
     f.close()
 
 # Load config
 def loadConfig():
-    f = open("rift/config.json", "r")
+    f = open(f"{homeFolder}/.rift/config.json", "r")
     tmp_j = f.read()
     cfginfo = json.loads(tmp_j)
 
@@ -273,9 +274,14 @@ def nerdFontGrabber(fileEx):
         returnIcon = (iconList['fallback'])
     return returnIcon
 
+if os.path.exists(f'{homeFolder}/.rift') is False:
+    os.makedirs(f'{homeFolder}/.rift')
+
+if os.path.exists(f'{homeFolder}/.rift/plugins') is False:
+    os.makedirs(f'{homeFolder}/.rift/plugins')
 
 # Checks if config file exists
-if os.path.isfile('rift/config.json') is False:
+if os.path.isfile(f'{homeFolder}.rift/config.json') is False:
     makeConfig()
 
 # Call Weclome Screen and run the Repo downloader
