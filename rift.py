@@ -264,7 +264,7 @@ def nerdFontGrabber(fileEx):
     if not NerdFontIcons:
         return ''
 
-    f = open("rift/fileicons.json", "r")
+    f = open(f"{ProgramFiles}/plugins/nerdfont.json", "r")
     nerd_json = f.read()
     iconList = json.loads(nerd_json)
 
