@@ -281,7 +281,7 @@ if os.path.exists(f'{homeFolder}/.rift/plugins') is False:
     os.makedirs(f'{homeFolder}/.rift/plugins')
 
 # Checks if config file exists
-if os.path.isfile(f'{homeFolder}.rift/config.json') is False:
+if os.path.isfile(f'{homeFolder}/.rift/config.json') is False:
     makeConfig()
 
 # Call Weclome Screen and run the Repo downloader
