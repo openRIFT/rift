@@ -18,7 +18,7 @@ import json
 
 # Variables
 listItem = 0
-RIFTVersion = '24.7.1'
+RIFTVersion = '24.8'
 execFiles = ['.exe', 'msi', '.dmg', '.sh', '.deb', '.rpm', '.AppImage', '.flatpak', '.flatpakref', '.pkg']
 homeFolder = os.path.expanduser('~')
 
