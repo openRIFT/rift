@@ -142,12 +142,16 @@ def refresh():
         if i == listItem:
             try:
                 global fileURL
+                global fileDescription
                 fileList = fileList.split(';')
                 fileURL = fileList[1]
                 fileURL = fileURL.replace('\n', '')
+                fileDescription = fileList[2]
+                fileDescription = fileDescription.replace('\n', '')
             except IndexError:
                 fileURL = ''
                 fileItem = ''
+                fileDescription = f'{Fore.YELLOW}File entry missing metadata (May not download){Style.RESET_ALL}'
 
             # Checks for content invalid data
             if fileItem == '':
@@ -159,6 +163,9 @@ def refresh():
             print(Style.RESET_ALL + str(i + 1) + ': ' + fileItem)
 
     print(Style.RESET_ALL + "-" * (terminalX - 2))
+    print(fileDescription)
+    print(Style.RESET_ALL + "-" * (terminalX - 2))
+
 
 
 # Key listener
