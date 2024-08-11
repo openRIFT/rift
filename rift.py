@@ -149,13 +149,11 @@ def refresh():
                 fileDescription = fileList[2]
                 fileDescription = fileDescription.replace('\n', '')
             except IndexError:
-                fileURL = ''
-                fileItem = ''
                 fileDescription = f'{Fore.YELLOW}File entry missing metadata (May not download){Style.RESET_ALL}'
 
             # Checks for content invalid data
             if fileItem == '':
-                print(f'{Fore.GREEN}{str(i + 1)}: ---')
+                print(f'{Fore.GREEN}{str(i + 1)}: {fileItem}')
             else:
                 print(f'{str(i + 1)}:{Fore.GREEN} {fileItem} [{nerdFontGrabber(os.path.basename(fileURL))}]{Back.WHITE}')
 
