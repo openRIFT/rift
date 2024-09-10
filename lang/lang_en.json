@@ -1,0 +1,22 @@
+{
+    "Welcome": "Welcome to RIFT! Have a good day :)",
+    "Version": "Version:",
+
+    "RepoInput": "Repository URL:",
+    "EmptyRepo": "Install repo-editor from RPK and then type `edit`",
+    "LoadingRepo": "Loading Repository...",
+    "LocalWarning": "Beware, this can crash RIFT!",
+
+    "MissingRepoData": "File entry missing metadata (May not download)",
+    "FileDownloadWarning": "This file could be harmful to your computer, download? RIFT IS NOT LIABLE FOR DAMAGE DONE TO YOUR COMPUTER!",
+    "Downloading": "Downloading...",
+    
+    "Error": "An error has occurred in RIFT!:",
+    "Canceled": "Operation Canceled",
+
+    "indexCMD": "Index:",
+    "playCMD": "File (Leave blank most recent download):",
+    "invalidCMD": "Invalid Command",
+
+    "fallback": "! No valid Locale !"
+}

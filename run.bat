@@ -1,3 +1,5 @@
+:: NEEDS MAINTAINER!
+
 :: Install packages from pip
 pip install colorama
 pip install rich

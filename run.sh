@@ -12,5 +12,11 @@ sudo rm /usr/local/bin/rift
 sudo cp rift.py /usr/local/bin/rift
 sudo chmod +x /usr/local/bin/rift
 
+# Move Locales and other info
+mkdir .rift
+cp lang .rift -r
+cp .rift/ ~/ -r
+rm .rift -r
+
 # Run
 rift
